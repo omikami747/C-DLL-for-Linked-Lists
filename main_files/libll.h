@@ -1,38 +1,31 @@
-/*------------------------------------------------------------------------------
-  (C) Aditya V. Nebhrajani 2020
-  File: libll.h
-  Description: Header for generic linked list library.
+//--------------------------------------------------------------------
+//
+// File         : Dll for Linked List
+// Author       : Omkar Girish Kamath
+// Date         : May 5, 2023
+// Description  : Various Basic functions used in Linked list creation
+//                ,deletion , print , adding nodes , append
+// Error Codes  : (1) 1024 : Memory assignment failed due to
+//                insufficient memory available
+//--------------------------------------------------------------------
 
----------------------------------RCS/CVS----------------------------------------
-  $Id: libll.h,v 1.2 2020/05/27 04:17:40 aditya Exp $
-  $Author: aditya $
-  $Source: /auto/common/.cvsroot/libll/src/libll.h,v $
-  $Revision: 1.2 $
-  $Date: 2020/05/27 04:17:40 $
-  $Log: libll.h,v $
-  Revision 1.2  2020/05/27 04:17:40  aditya
-  Added function prototypes for llsort, llappend.
-
-  Revision 1.1  2020/05/25 09:34:43  aditya
-  Initial version.
-
-------------------------------------------------------------------------------*/
 
 #include <stdio.h>
 #include <malloc.h>
 #include <stdlib.h>
 
-/*------------------------------------------------------------------------------
-  Linked list data structure.
-------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------
+  Linked list data structure
+--------------------------------------------------------------------*/
 typedef struct llnode {
   void *_data;
   struct llnode *_next;
 } ll;
 
-/*------------------------------------------------------------------------------
+/*--------------------------------------------------------------------
   Function prototypes.
-------------------------------------------------------------------------------*/
+--------------------------------------------------------------------*/
+
 extern ll *_llcreate(void);
 
 extern ll *lladd(ll *, void *);
