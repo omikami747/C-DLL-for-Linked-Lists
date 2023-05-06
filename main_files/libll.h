@@ -39,4 +39,3 @@ extern ll *lldelete(ll *, void * , int (*)(void *,void *) , void (*)(void *)) ;
 extern ll *llappend(ll *, ll *);
 
 extern ll *llsort(ll *, int (*)(void *, void *));
-

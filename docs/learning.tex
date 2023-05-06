@@ -6,10 +6,34 @@
 \maketitle
 \tableofcontents
 \date
-%%\pagebreak
 \section{\textbf{Makefile}}
 \subsection{Code}
+\begin{Verbatim}
+CC=gcc
+SRCS=libll.c libll.h
+OBJS=$(SRCS:.c=.o)
+CFLAGS=-fPIC
+SONAME=libll.so
+VERSION=1.0
+LIBPATH=/home/kali/lib
 
+
+$(SONAME).$(VERSION)    :  $(OBJS)
+	$(CC) $(CFLAGS) -shared -Wl,-soname,$(SONAME) -o $(SONAME).$(VERSION) $(OBJS)
+
+$(OBJS)                 :  $(SRCS)
+	$(CC) -c $(SRCS)
+
+clean      :
+	rm -f $(SONAME).$(VERSION) libll.o libll.h.gch
+
+install    :     $(SONAME).$(VERSION)
+	mkdir -p $(LIBPATH)
+	mkdir -p /home/kali/include
+	cp ./$(SONAME).$(VERSION) $(LIBPATH)
+	cp ./libll.h /home/kali/include
+	ldconfig -n $(LIBPATH)
+\end{Verbatim}
 \subsection{Description}
 \begin{Verbatim}
   To create a shared object file using a makefile, you can use the following steps:
@@ -114,4 +138,9 @@
   Therefore, the CFLAGS=-fPIC line in the makefile is setting a compiler
   flag that is necessary for creating a shared object file.
 \end{Verbatim}
+\section{Running the Code}
+\subsection{terminal command}
+gcc -L /home/kali/lib/ libll\_test.c -lll
+\subsection{Description}
+Here -lll is -l option with \textbf{ll} which is libll (my library name) minus the "lib" part (standard convention) for running this .  
 \end{document}

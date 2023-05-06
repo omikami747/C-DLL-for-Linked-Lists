@@ -1,15 +1,25 @@
 CC=gcc
-SRCS=libll.c
+SRCS=libll.c libll.h
 OBJS=$(SRCS:.c=.o)
 CFLAGS=-fPIC
 SONAME=libll.so
 VERSION=1.0
+LIBPATH=/home/kali/lib
 
-object     :
+
+$(SONAME).$(VERSION)    :  $(OBJS)
+	$(CC) $(CFLAGS) -shared -Wl,-soname,$(SONAME) -o $(SONAME).$(VERSION) $(OBJS)
+
+$(OBJS)                 :  $(SRCS)
 	$(CC) -c $(SRCS)
-lib        :
-	$(CC) $(CFLAGS) -shared -Wl,-soname,$(SONAME).$(VERSION) -o $(SONAME).$(VERSION) $(OBJS)
+
 clean      :
-	rm -f $(SONAME).$(VERSION) $(OBJS)
-clean_obj  :
-	rm -f *.o
+	rm -f $(SONAME).$(VERSION) libll.o libll.h.gch
+
+install    :     $(SONAME).$(VERSION)
+	mkdir -p $(LIBPATH)
+	mkdir -p /home/kali/include
+	cp ./$(SONAME).$(VERSION) $(LIBPATH)
+	cp ./libll.h /home/kali/include
+	ldconfig -n $(LIBPATH)
+
