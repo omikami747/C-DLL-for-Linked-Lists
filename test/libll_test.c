@@ -33,7 +33,8 @@ void test_llsearch(ll *l, char *s)
 int main(void) 
 {
   ll *mylist = NULL;
-
+  ll *delnode = NULL;
+  
   //----------------------------------------------------------------------
   // Test creating and adding to list
   //----------------------------------------------------------------------
@@ -52,7 +53,7 @@ int main(void)
   mylist = lladd(mylist, strdup("a"));  
   mylist = lladd(mylist, strdup("cool"));  
   mylist = lladd(mylist, strdup("library."));  
-
+  
   llprint(mylist, prs);
 
   //----------------------------------------------------------------------
@@ -64,7 +65,10 @@ int main(void)
   //----------------------------------------------------------------------
   // Test lldelete
   //----------------------------------------------------------------------
-  lldelete(mylist, "library.", cmp, sdel);
+
+  delnode = llsearch(mylist, "library.", cmp);
+  delnode = llsearch(delnode->_next, "library.", cmp);
+  lldelete(mylist, delnode, sdel);
   llprint(mylist, prs);  
   
   exit(123);

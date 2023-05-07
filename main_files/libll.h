@@ -5,14 +5,15 @@
 // Date         : May 5, 2023
 // Description  : Various Basic functions used in Linked list creation
 //                ,deletion , print , adding nodes , append
-// Error Codes  : (1) 1024 : Memory assignment failed due to
-//                insufficient memory available
 //--------------------------------------------------------------------
 
 
 #include <stdio.h>
 #include <malloc.h>
 #include <stdlib.h>
+
+// Error Code 25 : Memory Allocation failed.
+#define EXIT_MALLOC_FAILED 25 
 
 /*--------------------------------------------------------------------
   Linked list data structure
@@ -34,8 +35,8 @@ extern void llprint(ll *, char *(*)(void *));
 
 extern ll *llsearch(ll *, void * , int (*)(void *,void *)) ;
 
-extern ll *lldelete(ll *, void * , int (*)(void *,void *) , void (*)(void *)) ;
+extern ll *lldelete(ll *, ll *, void (*)(void *)) ;
 
 extern ll *llappend(ll *, ll *);
 
-extern ll *llsort(ll *, int (*)(void *, void *));
+//extern ll *llsort(ll *, int (*)(void *, void *));

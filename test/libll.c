@@ -30,7 +30,7 @@ ll *_ll_create()
   }
 
   // Initialize structure
-  new->_data = NULL;
+  new->_data = NULL:
   new->_next = NULL;
 
   // return the new node pointer created
@@ -117,7 +117,7 @@ ll *llsearch(ll *head, void *key, int (*comp)(void *,void *))
   ll *temp = NULL;
   
   // if start node or functin pointer provided is NULL
-  if ((head == NULL) || (key == NULL) || (comp == NULL)) {
+  if ((head == NULL) || (key == NULL) || (com == NULL)) {
     return NULL;
   }
   
@@ -136,59 +136,53 @@ ll *llsearch(ll *head, void *key, int (*comp)(void *,void *))
 
 //--------------------------------------------------------------------
 // Function Name: lldelete()
-// Arguments    : Head pointer of the list delete, node marked for
-//                deletion and function pointer to delete payload data
-//                from nodes.
+// Arguments    : Head pointer of the list delete, user input data
+//                pointer to be matched, a function pointer to compare
+//                user input data with node payload data and function
+//                pointer to delete payload data from nodes.
 // Returns      : NULL pointer if list has 0 elements or has 1 element
 //                and user data matches with that node. Original head
 //                for all other cases.
 // Description  : User function to delete node and its payload data
-//                which matches node marked for deletion.
+//                which match user input data.
 //--------------------------------------------------------------------
-ll *lldelete(ll *head, ll *node, void (*del_data)(void *))
+ll *lldelete(ll *head, void *data,
+	     int (*comp)(void *,void *) , void (*del_data)(void *))
 {
-  ll *temp_1 = NULL;
-  ll *temp_2 = NULL;
+  ll * temp_1 = NULL ;
+  ll * temp_2 = NULL ;
 
-  // CASE 1/4: if the head of the given list is NULL
+  // if the head of the given list is NULL
   if (head == NULL) {
     return NULL;
   }
-  
-  // CASE 2/4: if the list contains only 1 element and it matches
-  //           node marked for deletion
-  else if ((head->_next == NULL) && (head == node)) {
-    del_data((head->_data));
-    free(head);
-
+  // if the list contains only 1 element and it matches the data
+  else if ((head->_next == NULL) && (!comp((head->_data),data))) {
     return NULL;
   }
-  
-  // CASE 3/4: if the list contains 2 or more elements and head
-  //           matches the node marked for deletion
-  else if (head == node) {  
+  // if the list contains 2 or more elements and head matches the user
+  // input data
+  else if (!comp((head->_data),data)) {
+    
     // copy the data from head->_next to head,make the _next of head
     // point to the _next of _next of head and delete both the payload
     // and the second node
-    del_data(head->_data);             // delete head payload        
-    head->_data = head->_next->_data;  // head data -> 2nd node data
-    temp_1 = head->_next;              // store second node pointer
-    head->_next = head->_next->_next;  // head next -> to 3rd node
-    free(temp_1);                      // delete second node
+    head->_data = (head->_next)->_data;
+    head->_next = head->_next->_next;
+    del_data((head->_data));
+    free(head);
     
     return head;
   }
-  
-  // CASE 4/4: if the list contains 2 or more elements and head doesnt
-  //           match the node marked for deletion
-  else {
+  else{
     // traverse the list and delete the payload and data of the node
-    // which matches the node marked for deletion
-    for (temp_2 = head; temp_2 != NULL;
-	 temp_1 = temp_2, temp_2 = temp_2->_next) {
-	// if node marked for deletion matches with current node,
-	// delete the node and its payload data
-	if (temp_2 == node) {
+    // which matches the user input data
+    for (temp_2 = head ;; temp_2 != NULL ; temp_1 = temp_2 ,
+	   temp_2 = temp_2 -> _next)
+      {
+	// if user data matches with current node payload, delete
+	// the node and its payload data
+	if (comp((temp_2 -> _data),data) == 0) {
 	  temp_1 -> _next = temp_2 -> _next;
 	  del_data((temp_2->_data));
 	  free(temp_2);
@@ -196,18 +190,13 @@ ll *lldelete(ll *head, ll *node, void (*del_data)(void *))
 	  return head;
 	}
       }
-    
-    // when list length is 1 but head doesnt match
-    // node marked for deletion
-    return head; 
-    
   }
 }
 
 //--------------------------------------------------------------------
 // Function Name: llappend()
 // Arguments    : A node pointer 1 and a node pointer 2.
-// Returns      : head pointer formed afte appending list with
+// Returns      : The new head pointer formed afte appending list with
 //                head node pointer 2 to tail of list formed by head
 //                pointer 1.
 // Description  : User function to append linked list 2 to the end of
@@ -217,17 +206,9 @@ ll *llappend(ll *head_1, ll *head_2)
 {
   ll *temp = NULL;
 
-  // NULL list + NULL list = NULL list
-  if (!head_1 && !head_2) {
+  // if head of the first list is null then return NULL pointer
+  if (head_1 == NULL) {
       return NULL ;
-  }
-  // NULL list + list 2 = list 2
-  else if (!head_1 && head_2) {
-    return head_2;
-  }
-  // list 1 + NULL list = list 1
-  else if (head_1 && !head_2) {
-    return head_1;
   }
   else{
   // traverse to the end of list 1 and get the last node pointer
@@ -243,4 +224,47 @@ ll *llappend(ll *head_1, ll *head_2)
   return head_1;
   
   }
+}
+
+//--------------------------------------------------------------------
+//
+//--------------------------------------------------------------------
+
+
+void swap (void *a, void *b)
+{
+  void * temp ;
+  temp = a;
+  a = b;
+  b = temp ;
+}
+
+ll *llsort(ll *head, int (*comp)(void *, void *))
+{
+  if (head == NULL)
+    {
+      return NULL ; 
+    }
+  ll *temp = head;
+  int length = 0;
+  for (; temp->_next != NULL ; temp = temp -> _next)
+    {
+      length++;
+    }
+  ll *temp_1 = head ;
+  ll *temp_2 ;
+  for (int i = 1; i < length ; i++)
+    {
+      temp_1 = head;
+      temp_2 = head -> _next;
+      for (int j = 1; j <= length - i ; j++,temp_1=temp_1->_next,
+	     temp_2=temp_2->_next)
+	{
+	  if (comp((temp_1 -> _data),((temp_2 -> _data))))
+	    {
+	      swap((temp_1 -> _data),(temp_2 -> _data));		   
+	    }		
+	}
+    }
+  return head;
 }
