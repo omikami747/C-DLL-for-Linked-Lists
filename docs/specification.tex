@@ -4,7 +4,6 @@
 \author{Omkar Girish Kamath}
 \begin{document}
   \maketitle \tableofcontents \date
-  \vspace*{8cm}
   \section{\textbf{Introduction}}
   This specification document outlines the design ,features ,functions
   and installation of the \textbf{Dynamically Linked Library of Linked
@@ -16,6 +15,7 @@
   hiccup-less usage of the library.
   \section{\textbf{Installation in Linux Systems}}
   \subsection{Introduction to DLLs}
+  {\linespread{1.0}
   Dynamically linked libraries (DLLs) are shared libraries that
   contain compiled code and data that can be linked and loaded into a
   program at run-time, rather than at compile-time. In contrast,
@@ -32,15 +32,100 @@ contains references to functions or data that are defined in the DLL.
 The program is compiled with references to the DLL.  The program can
 call functions and access data in the DLL as needed.
 \subsection{Setting the Environment Variables}
-The gcc linker looks for the shared object (.so) file and to not
-mention the path explicitly for the linker to look , we need to add
-the directory containing the shared object (.so) file to the
-environment variable \$LD\_LIBRARY\_PATH. But to ensure that the
+The gcc dynamic linker looks for the shared object (.so) file at
+runtime using \textbf{LD\_LIBRARY\_PATH} and gcc compiler looks for
+header files at compilation using C\_INCLUDE\_PATH and to not mention
+the path explicitly during compilation we need to add the
+directory containing the shared object (.so) and the header file
+(libll.h) file to the environment variable \textbf{LD\_LIBRARY\_PATH}
+and C\_INCLUDE\_PATH respectively. C\_INCLUDE\_PATH is used during the
+compilation process to find header files needed by the code being
+compiled, while \textbf{LD\_LIBRARY\_PATH} is used at runtime to find
+shared libraries needed by the executable. But to ensure that the
 environment variable remembers it even after system reboots, we need
 to change the configuration file of the user shell. For the sake of
-example the \textbf{Bourne Again Shell (bash)} is considered.
+example the \textbf{Bourne Again Shell (bash)} is considered.  So we
+add the line \textbf{\center{export
+    LD\_LIBRARY\_PATH=/path/to/sharedobjectfile/:\$LD\_LIBRARY\_PATH}}
+  \textbf{\center{export
+    C\_INCLUDE\_PATH=/path/to/headerfile/:\$C\_INCLUDE\_PATH}}
+  }
   \section{\textbf{Intended Usage and Working of The Library}}
   \subsection{Makefile}
+  
+  To use this library firstly you need to use the Makefile provided
+  in the directory main\_files. Open your shell terminal and use the
+  command "make" in the directory main\_files. This will compile the
+  library source files depending upon the dependencies and produce the
+  target shared object file if its not present from before. Then you
+  need to use the "make install" command which will create a directory
+  in home/user/ called lib where the shared object file be copied to.
+  Similarly another directory is created in home/user/ called include
+  where the header file is copied to. Then the command ldconfig
+  creates a symlink to the shared library in the lib directory.
   \subsection{Compilation of the File}
+
+  Now you can use the library, the gcc command would be :
+  \begin{center}
+    \textbf{gcc -L /home/user/lib yourfile.c -lll}
+  \end{center}
+  
   \section{\textbf{Function Descriptions and their Purpose}}
+  \subsection{Function Name: \_ll\_create()}
+  
+  Arguments: None.  \\ 
+  Returns:     Head pointer to new list (ll *) \\
+  Description:   Non-User function to create new lists or nodes.
+  Its a private function meant not to be used by the
+  user, rather used by other functions to create nodes.
+  User can use the lladd() function to create and add
+  nodes. \\
+  
+  \subsection{Function Name: lladd()}
+  Arguments:     Takes in a pointer to a list (or NULL if a new list
+  needs to be created) and a pointer to the data payload that will
+  be added to the newly created node. \\
+  Returns:       Head pointer to either a new list, or the same list
+  if the head argument is non-null (ll *). \\
+  Description:   It is a User function to create a new list or
+  add nodes to the end of given linked list. \\
+  
+  \subsection{Function Name: llprint()}
+  Arguments    : A starting node from to start printing from and a
+  a function pointer which takes in payload data of a
+  node and returns the string that is to be printed. \\
+  Returns      : None \\
+  Description  : User function to print all the nodes occuring after
+  the starting node \\
+
+  \subsection{ Function Name: llsearch()}
+  Arguments    : A starting node pointer to begin searching from, a
+  key a function pointer which takes in payload data 
+  of a node and returns the string that is to be
+  printed.\\
+  Returns      : Pointer (ll *) containing payload data matching with
+  key.\\
+  Description  : User function to search for the payload data in the
+  linked list\\
+
+  \subsection{ Function Name: lldelete()}
+  Arguments    : Head pointer of the list delete, node marked for
+  deletion and function pointer to delete payload data
+  from nodes. \\
+  Returns      : NULL pointer if list has 0 elements or has 1 element
+  and user data matches with that node. Original head (ll *)
+  for all other cases. \\
+  Description  : User function to delete node and its payload data
+  which matches node marked for deletion. \\
+
+  \subsection{ Function Name: llappend()}
+  Arguments    : A node pointer 1 and a node pointer 2. \\
+  Returns      : head pointer formed afte appending list with
+  head node pointer 2 to tail of list formed by head
+  pointer 1. \\
+  Description  : User function to append linked list 2 to the end of
+  linked list 1. \\
+
+  
+ 
 \end{document}

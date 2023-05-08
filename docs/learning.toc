@@ -1,6 +1,6 @@
 \contentsline {section}{\numberline {1}\textbf {Makefile}}{1}{}%
 \contentsline {subsection}{\numberline {1.1}Code}{1}{}%
 \contentsline {subsection}{\numberline {1.2}Description}{2}{}%
-\contentsline {section}{\numberline {2}Running the Code}{4}{}%
-\contentsline {subsection}{\numberline {2.1}terminal command}{4}{}%
-\contentsline {subsection}{\numberline {2.2}Description}{4}{}%
+\contentsline {section}{\numberline {2}Running the Code}{3}{}%
+\contentsline {subsection}{\numberline {2.1}terminal command}{3}{}%
+\contentsline {subsection}{\numberline {2.2}Description}{3}{}%
